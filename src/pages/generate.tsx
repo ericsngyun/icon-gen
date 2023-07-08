@@ -5,7 +5,8 @@ import { api } from "@/utils/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Form } from "@/components/ui/form";
-import { zodResolver } from "@hookform/resolvers,zod";
+// import { zodResolver } from "@hookform/resolvers,zod";
+import { ModeToggle } from "@/components/theme-toggle";
 
 import * as z from "zod";
 
@@ -24,6 +25,7 @@ const GeneratePage: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center">
+        <ModeToggle />
         <form className = "gap-6">
             <label className = "font-bold">Prompt</label>
             <Input type = "text" className = "max-w-xl"></Input>
