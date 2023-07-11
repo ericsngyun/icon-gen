@@ -2,6 +2,7 @@ import { type NextPage } from "next";
 import Head from "next/head";
 
 import { api } from "@/utils/api";
+import { Card, CardHeader, CardDescription, CardContent, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Form } from "@/components/ui/form";
@@ -9,13 +10,17 @@ import { Form } from "@/components/ui/form";
 import { ModeToggle } from "@/components/theme-toggle";
 
 import * as z from "zod";
+import { FormGroup } from "@/components/FormGroup";
+import { useState } from "react";
 
 const formSchema = z.object({
     prompt: z.string(),
 });
 
 const GeneratePage: NextPage = () => {
-  const hello = api.example.hello.useQuery({ text: "from tRPC" });
+  const [form, setForm] = useState({
+    prompt: "create a prompt...",
+  });
 
   return (
     <>
@@ -25,12 +30,25 @@ const GeneratePage: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center">
-        <ModeToggle />
-        <form className = "gap-6">
-            <label className = "font-bold">Prompt</label>
-            <Input type = "text" className = "max-w-xl"></Input>
-            <Button variant = "default">Submit</Button>
-        </form>
+        {/* <ModeToggle /> */}
+        <Card className = "p-8 lg:min-w-[500px]">
+          <form className = "flex flex-col gap-4">
+            <FormGroup>
+              <label className = "font-bold text-xl">Prompt</label>
+              <Input type = "text" className = "max-w-xl italic" value = {form.prompt} 
+              onChange = {(e) => 
+              setForm({
+                ...form,
+                prompt: e.target.value,
+              })}></Input>
+            </FormGroup>
+            <CardFooter className = "flex justify-end -p-4">
+              <Button variant = "default">
+                Submit
+              </Button>
+            </CardFooter>
+          </form>
+        </Card>
       </main>
     </>
   );
