@@ -11,7 +11,7 @@ import { ModeToggle } from "@/components/theme-toggle";
 
 import * as z from "zod";
 import { FormGroup } from "@/components/FormGroup";
-import { useState } from "react";
+import React, { useState } from "react";
 
 const formSchema = z.object({
     prompt: z.string(),
@@ -21,6 +21,16 @@ const GeneratePage: NextPage = () => {
   const [form, setForm] = useState({
     prompt: "create a prompt...",
   });
+
+  function updateForm(key: string) {
+    return function (e: React.ChangeEvent<HTMLInputElement>) {
+      setForm({
+        ...form,
+        [key]: e.target.value,
+      });
+      console.log(form);
+    }
+  }
 
   return (
     <>
@@ -36,11 +46,7 @@ const GeneratePage: NextPage = () => {
             <FormGroup>
               <label className = "font-bold text-xl">Prompt</label>
               <Input type = "text" className = "max-w-xl italic" value = {form.prompt} 
-              onChange = {(e) => 
-              setForm({
-                ...form,
-                prompt: e.target.value,
-              })}></Input>
+              onChange = {updateForm("prompt")}></Input>
             </FormGroup>
             <CardFooter className = "flex justify-end -p-4">
               <Button variant = "default">
