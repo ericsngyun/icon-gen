@@ -4,11 +4,7 @@ import {
   createTRPCRouter,
   publicProcedure,
   protectedProcedure,
-<<<<<<< HEAD
-} from "~/server/api/trpc";
-=======
 } from "@/server/api/trpc";
->>>>>>> 800935d7c5162c413a188d0767ebf32e8670661c
 
 export const exampleRouter = createTRPCRouter({
   hello: publicProcedure

@@ -6,13 +6,8 @@ import {
 } from "next-auth";
 import DiscordProvider from "next-auth/providers/discord";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-<<<<<<< HEAD
-import { env } from "~/env.mjs";
-import { prisma } from "~/server/db";
-=======
 import { env } from "@/env.mjs";
 import { prisma } from "@/server/db";
->>>>>>> 800935d7c5162c413a188d0767ebf32e8670661c
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
