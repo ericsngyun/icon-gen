@@ -21,12 +21,23 @@ const GeneratePage: NextPage = () => {
   const [form, setForm] = useState({
     prompt: "",
   });
+  const generateIcon = api.generate.generateIcon.useMutation({
+    onSuccess(data) {
+      console.log('mutation finishes')
+    }
+  });
 
   function handleFormSubmit(e: React.FormEvent) {
     e.preventDefault();
     // console.log(form);
     // TODO: submit the form data to the backend
       // no backend endpoint to send data to at the moment
+    
+      generateIcon.mutate({
+        prompt: form.prompt,
+      })
+
+      // 
   }
 
   function updateForm(key: string) {
@@ -35,7 +46,7 @@ const GeneratePage: NextPage = () => {
         ...form,
         [key]: e.target.value,
       });
-      // console.log([key]);
+      console.log(form);
     }
   }
 
@@ -49,11 +60,17 @@ const GeneratePage: NextPage = () => {
       <main className="flex min-h-screen flex-col items-center justify-center">
         {/* <ModeToggle /> */}
         <Card className = "p-6 lg:min-w-[500px]">
-          <form className = "flex flex-col gap-4" onSubmit = {handleFormSubmit}>
+          <form 
+            className = "flex flex-col gap-4" 
+            onSubmit = {handleFormSubmit}>
             <FormGroup>
               <label className = "font-bold text-xl">Prompt</label>
-              <Input type = "text" className = "max-w-xl italic" value = {form.prompt} 
-              onChange = {updateForm("prompt")}></Input>
+              <Input 
+                type = "text" 
+                className = "max-w-xl italic" 
+                value = {form.prompt} 
+                onChange = {updateForm("prompt")}>
+              </Input>
             </FormGroup>
             <CardFooter className = "flex justify-end -p-4">
               <Button variant = "default">
