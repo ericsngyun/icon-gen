@@ -12,6 +12,7 @@ import { ModeToggle } from "@/components/theme-toggle";
 import * as z from "zod";
 import { FormGroup } from "@/components/FormGroup";
 import React, { useState } from "react";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 // const formSchema = z.object({
 //     prompt: z.string(),
@@ -21,9 +22,10 @@ const GeneratePage: NextPage = () => {
   const [form, setForm] = useState({
     prompt: "",
   });
+
   const generateIcon = api.generate.generateIcon.useMutation({
     onSuccess(data) {
-      console.log('mutation finishes')
+      console.log('mutation finishes', data)
     }
   });
 
@@ -50,6 +52,10 @@ const GeneratePage: NextPage = () => {
     }
   }
 
+  const session = useSession();
+  // !! sets to boolean if the data is set from session object
+  const isLoggedIn = !!session.data;
+
   return (
     <>
       <Head>
@@ -59,9 +65,21 @@ const GeneratePage: NextPage = () => {
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center">
         {/* <ModeToggle /> */}
+        { !isLoggedIn && (
+          <Button variant = "ghost" onClick = {
+            () => {signIn().catch(console.error);
+            }}> LOG IN </Button>
+        )}
+
+        { isLoggedIn && (
+          <Button variant = "destructive" onClick = {
+            () => {signOut().catch(console.error);
+            }}>Log Out</Button>
+        )}
+        
         <Card className = "p-6 lg:min-w-[500px]">
-          <form 
-            className = "flex flex-col gap-4" 
+          <form
+            className = "flex flex-col gap-4"
             onSubmit = {handleFormSubmit}>
             <FormGroup>
               <label className = "font-bold text-xl">Prompt</label>
