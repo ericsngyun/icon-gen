@@ -13,6 +13,8 @@ import * as z from "zod";
 import { FormGroup } from "@/components/FormGroup";
 import React, { useState } from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+
 
 // const formSchema = z.object({
 //     prompt: z.string(),
@@ -55,6 +57,7 @@ const GeneratePage: NextPage = () => {
   const session = useSession();
   // !! sets to boolean if the data is set from session object
   const isLoggedIn = !!session.data;
+  console.log(session.data);
 
   return (
     <>
@@ -65,18 +68,25 @@ const GeneratePage: NextPage = () => {
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center">
         {/* <ModeToggle /> */}
-        { !isLoggedIn && (
-          <Button variant = "ghost" onClick = {
-            () => {signIn().catch(console.error);
-            }}> LOG IN </Button>
-        )}
+        <div className = "flex gap-4"> 
+          <Avatar>
+            <AvatarImage src = {session?.data?.user?.image} />
+            { isLoggedIn && ( <AvatarFallback>{session?.data?.user?.name}</AvatarFallback> )}
+          </Avatar>
+          { !isLoggedIn && (
+            <Button variant = "ghost" onClick = {
+              () => {signIn().catch(console.error);
+              }}> LOG IN </Button>
+          )}
 
-        { isLoggedIn && (
-          <Button variant = "destructive" onClick = {
-            () => {signOut().catch(console.error);
-            }}>Log Out</Button>
-        )}
-        
+          { isLoggedIn && (
+            <Button variant = "destructive" onClick = {
+              () => {signOut().catch(console.error);
+              }}>Log Out</Button>
+          )}
+          {/* { session?.data?.user?.name } */}
+          {/* { session?.data?.user?.image } */}
+        </div>
         <Card className = "p-6 lg:min-w-[500px]">
           <form
             className = "flex flex-col gap-4"
